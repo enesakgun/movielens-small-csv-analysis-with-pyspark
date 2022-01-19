@@ -4,13 +4,13 @@ Data analysis for Movielens-Small data was carried out using Apache Spark via Ju
   ### JDK 8 Setup for Windows 
   Download Java SE Development Kit 8u321 for Windows.
  (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) create a new variable. We define variable name: “SPARK_HOME” value: 
-We select Path in environment variables and say edit and add %SPARK_HOME%\bin to Path. 
+Select Path in environment variables and say edit and add %SPARK_HOME%\bin to Path. 
   ### Pyspark setup
   https://spark.apache.org/downloads.html
   1. Opening C:\spark file in PC
   2. Then we delete the .template extension of the log4j.properties.template file in the conf folder and open it with any text editor, change the log4j.rootCategory=INFO line to log4j.rootCategory=ERROR and save it.
- 3. We come to the environment variables of Windows (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) and create a new variable. We define variable name: “SPARK_HOME” value: “C:\spark”.
-Again, we select Path in the environment variables and say edit and add %SPARK_HOME%\bin to Path.
+ 3. Go to the environment variables of Windows (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) and create a new variable. Define variable name: “SPARK_HOME” value: “C:\spark”.
+Again, Select Path in the environment variables and say edit and add %SPARK_HOME%\bin to Path.
   ### Hadoop Setup
   1. Download "winutils.exe" for Hadoop
   2. Opening C:\spark file in PC Copy winutils.exe to Hadoop File
@@ -18,10 +18,10 @@ Again, we select Path in the environment variables and say edit and add %SPARK_H
   It opens with the option to run command line as administrator. In the directory where winutils.exe is located, write the command: `chmod -R 777 C:\tmp\hive`
   Finally, write the `spark-shell` command on the command line and check if the installation is complete.
   ### Anaconda Download
-  1. Eğer pc'nizde kurulu değilse https://www.anaconda.com/products/individual sitesi üzerinden anaconda kurulumu yapılır.
-  2. Apache Spark'ı Jupyter Notebook üzerinden kullanabilmek için, (Denetim Masası ->Sistem ve Güvenlik -> Sistem -> Gelişmiş Sistem Ayarları -> Ortam Değişkenleri) alanından Path'i düzenleye basarak, C:\Users\EnesA\anaconda3 Anaconda ' nın kurulu olduğu dizin eklenir. C:\Users\EnesA\anaconda3\Scripts anacondanın kurulu olduğu alandaki Scripts klasörünün dizini eklenir.
+  1. If it is not installed on your PC, anaconda is installed via the https://www.anaconda.com/products/individual site.
+  2. To use Apache Spark on Jupyter Notebook, go to (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables). By pressing Edit Path C:\Users\EnesA\anaconda3 The directory where Anaconda is installed is added. C:\Users\EnesA\anaconda3\Scripts The directory of the Scripts folder in the area where anaconda is installed is added.
 
-Yukarıdaki bütün kurulumlar tamamlandıktan sonra çalışmaya başlanabilecektir.
+After all the above installations are completed, it will be possible to start working.
 
 # Task-1 Exploratory Data Analysis
 
@@ -289,7 +289,7 @@ In order to perform this analysis, the following libraries must be imported.
 If there are no libraries, the libraries are installed with the `!pip install` command as shown earlier. It is then imported. If the latest version of Visual Studio Code ++ is not installed on your PC, you will receive an error in the installation of some libraries.
 The path to be followed for installation can be followed from the page https://docs.microsoft.com/tr-tr/cpp/build/vscpp-step-0-installation?view=msvc-170.
 
-## Kütüphanelerin import edilmesi
+## Importing libraries
 
 ```
 import numpy as np
