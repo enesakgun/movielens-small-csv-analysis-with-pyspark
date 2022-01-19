@@ -324,7 +324,8 @@ nltk: Natural Language Toolkit; insan dili verileriyle çalışmak için Pyhton 
 PC' de ekstradan yüklenmesi gereken bu kit için aşağıdaki komut koşturulur.
 ```
 import nltk
-nltk.download()
+nltk.download() # it will open pop-up for installing nltk
+showing info https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/index.xml 
 ```
 Masaüstüne düşen setup kurularak işlem tamamlanır.
 
@@ -334,10 +335,78 @@ Jupyter Notebook'un veri aldığı klasör içerine IMDB Dataset dosyası konur.
 imdb_data=pd.read_csv('IMDB Dataset.csv')
 print(imdb_data.shape)
 imdb_data.head(10)
+review	sentiment
+0	One of the other reviewers has mentioned that ...	positive
+1	A wonderful little production. <br /><br />The...	positive
+2	I thought this was a wonderful way to spend ti...	positive
+3	Basically there's a family where a little boy ...	negative
+4	Petter Mattei's "Love in the Time of Money" is...	positive
+5	Probably my all-time favorite movie, a story o...	positive
+6	I sure would like to see a resurrection of a u...	positive
+7	This show was an amazing, fresh & innovative i...	negative
+8	Encouraged by the positive comments about this...	negative
+9	If you like original gut wrenching laughter yo...	positive
 ```
 ## Data Describe and Sentiment Count (Control) 
 ```
 imdb_data.describe()
 imdb_data['sentiment'].value.counts()
 ```
+## Text normalization
+Words are tokenized. To separate a statement into words, we utilise the word tokenize () method.
+```
+tokenizer=ToktokTokenizer()
+stopword_list=nltk.corpus.stopwords.words('english')
+```
 
+## Removing the html strips
+```
+def strip_html(text):
+    soup = BeautifulSoup(text, "html.parser")
+    return soup.get_text()
+#Removing the square brackets
+def remove_between_square_brackets(text):
+    return re.sub('\[[^]]*\]', '', text)
+#Removing the noisy text
+def denoise_text(text):
+    text = strip_html(text)
+    text = remove_between_square_brackets(text)
+    return text
+#Apply function on review column
+imdb_data['review']=imdb_data['review'].apply(denoise_text)
+```
+## Removing special characters
+Because we’re working with English-language evaluations in our dataset, we need to make sure that any special characters are deleted.
+```
+#Define function for removing special characters
+def remove_special_characters(text, remove_digits=True):
+    pattern=r'[^a-zA-z0-9\s]'
+    text=re.sub(pattern,'',text)
+    return text
+#Apply function on review column
+imdb_data['review']=imdb_data['review'].apply(remove_special_characters)
+```
+
+## Removing stopwords and normalization
+Stop words are words that have little or no meaning, especially when synthesising meaningful aspects from the text.
+Stop words are words that are filtered out of natural language data (text) before or after it is processed in computers. While “stop words” usually refers to a language’s most common terms, all-natural language processing algorithms don’t employ a single universal list.
+Stopwords include words such as a, an, the, and others.
+```
+#set stopwords to english
+stop=set(stopwords.words('english'))
+print(stop)
+
+#removing the stopwords
+def remove_stopwords(text, is_lower_case=False):
+    tokens = tokenizer.tokenize(text)
+    tokens = [token.strip() for token in tokens]
+    if is_lower_case:
+        filtered_tokens = [token for token in tokens if token not in stopword_list]
+    else:
+        filtered_tokens = [token for token in tokens if token.lower() not in stopword_list]
+    filtered_text = ' '.join(filtered_tokens)    
+    return filtered_text
+#Apply function on review column
+imdb_data['review']=imdb_data['review'].apply(remove_stopwords)
+{'ours', 'he', 'our', 'am', 'aren', 'each', 'yourselves', 'o', 'all', 'any', 'what', 'during', 'as', 'those', "you've", 'on', "shan't", "that'll", 'these', 'yours', 'hasn', 'who', 'of', 'doing', 'did', 'for', 'against', 'why', 'few', 'its', 's', 'will', 'weren', 'very', 'whom', 'can', 'further', 'she', 'because', 'me', 'be', "couldn't", 'than', 'being', 'down', 'should', 'isn', 'needn', 'over', "didn't", 'ain', 'had', 'd', 'again', 'some', 'been', 'where', 'm', "hadn't", "won't", 'more', "mustn't", 'once', 'does', 'and', 'under', 'myself', 'so', "it's", 'hadn', 'mustn', 'the', "shouldn't", 'their', 'while', 'were', 'himself', 'out', 'both', 'own', 'll', 'there', 'don', 'in', 'with', 'into', 'but', "aren't", 'just', 'this', 'yourself', 'here', 'nor', 'too', 'no', 'how', 'hers', 'below', 'when', 'before', 'are', 'after', "wasn't", 'couldn', 'do', 'such', 'ourselves', "wouldn't", 've', 'now', 'shan', 'itself', 'theirs', 'most', 'her', "you'd", 't', 'other', "you'll", 'y', 'won', 'your', 'having', "weren't", 'we', 'was', 'an', 'above', 'that', 'from', 'up', 'about', 'ma', 'same', "don't", "needn't", 'to', 'haven', 'not', 're', 'they', "isn't", 'off', 'themselves', 'at', 'didn', 'my', 'have', 'herself', 'a', 'by', 'or', "mightn't", 'has', 'it', 'you', "she's", 'wouldn', 'then', 'between', "you're", 'his', "haven't", 'until', "hasn't", 'through', 'mightn', 'shouldn', 'is', "should've", 'wasn', 'i', "doesn't", 'doesn', 'him', 'which', 'if', 'only', 'them'}
+```
