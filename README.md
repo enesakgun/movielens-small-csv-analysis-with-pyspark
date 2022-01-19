@@ -1,5 +1,5 @@
 # movielens-small-csv-analysis-with-pyspark
-In the study, data analysis for Movielens-Small data was carried out using Apache Spark via Jupyter Notebook.
+Data analysis for Movielens-Small data was carried out using Apache Spark via Jupyter Notebook.
 ## Setup
   ### JDK 8 Setup for Windows 
   Download Java SE Development Kit 8u321 for Windows.
