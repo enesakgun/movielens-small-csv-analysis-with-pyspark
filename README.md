@@ -278,7 +278,66 @@ print('AUC: train %.2f, test %.2f.' % (train_auc, test_auc))
 ```
 Modelling result is :
 ```
-**Precision: train 0.61, test 0.11.**
-**AUC: train 0.93, test 0.90.**
+Precision: train 0.61, test 0.11.
+AUC: train 0.93, test 0.90.
 
 ```
+# Task – 3 Text Analysis:
+
+It also means sentiment analysis.
+Bu analizi yapabilmek için aşağıdaki kütüphanelerin import edilmesi gerekmektedir.
+Eğer kütüphaneler yoksa daha öncede gösterildiği gibi `!pip install` komutuyla kütüphaneler kurulur. Daha sonra import edilir. Visual studio code ++ ayarlının son güncel hali pc ' nizde yüklü değilse bazı kütüphanelerin kurulumunda hata alınacaktır.
+https://docs.microsoft.com/tr-tr/cpp/build/vscpp-step-0-installation?view=msvc-170 sayfasından yükleme için izlenecek yol takip edilebilir.
+
+## Kütüphanelerin import edilmesi
+
+```
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import nltk
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import LabelBinarizer
+from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+from wordcloud import WordCloud,STOPWORDS
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize,sent_tokenize
+from bs4 import BeautifulSoup
+import spacy
+import re,string,unicodedata
+from nltk.tokenize.toktok import ToktokTokenizer
+from nltk.stem import LancasterStemmer,WordNetLemmatizer
+from sklearn.linear_model import LogisticRegression,SGDClassifier
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from textblob import TextBlob
+from textblob import Word
+from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
+import os
+import warnings
+```
+Bu çalışmada nltk kütüphanesi önemli bir araçtır.
+nltk: Natural Language Toolkit; insan dili verileriyle çalışmak için Pyhton programlama dili ile geliştirilmiş ve geliştirilmekte olan 50'nin üzerinde derlem(corpus) ve sözcük kaynağı(lexical resources) ile oluşturulmuş açık kaynaklı bir kütüphanedir.
+PC' de ekstradan yüklenmesi gereken bu kit için aşağıdaki komut koşturulur.
+```
+import nltk
+nltk.download()
+```
+Masaüstüne düşen setup kurularak işlem tamamlanır.
+
+## Importing Data and Data Analysis
+Jupyter Notebook'un veri aldığı klasör içerine IMDB Dataset dosyası konur. Daha sonra aşağıdaki komut çalıştırılarak data çekilir.
+```
+imdb_data=pd.read_csv('IMDB Dataset.csv')
+print(imdb_data.shape)
+imdb_data.head(10)
+```
+## Data Describe and Sentiment Count (Control) 
+```
+imdb_data.describe()
+imdb_data['sentiment'].value.counts()
+```
+
