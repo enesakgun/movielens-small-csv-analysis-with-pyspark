@@ -376,7 +376,7 @@ def denoise_text(text):
 imdb_data['review']=imdb_data['review'].apply(denoise_text)
 ```
 ## Removing special characters
-Because we’re working with English-language evaluations in our dataset, we need to make sure that any special characters are deleted.
+Since English evaluations are used in the dataset, it is necessary to ensure that special characters are deleted.
 ```
 #Define function for removing special characters
 def remove_special_characters(text, remove_digits=True):
