@@ -23,7 +23,7 @@ Again, we select Path in the environment variables and say edit and add %SPARK_H
 
 Yukarıdaki bütün kurulumlar tamamlandıktan sonra çalışmaya başlanabilecektir.
 
-# Task-1 Exploratory Data Analysis.ipynb
+# Task-1 Exploratory Data Analysis
 
 1.  First of all, a new page is opened by saying File>New Notebook on jupyter notebook. 
 2. By typing the `pwd` command, the save location of jupyter is learned and the data to be used is loaded here.  In this study, "MovieLens 25M movie ratings" data is downloaded via https://grouplens.org/datasets/movielens/25m/ link. The downloaded .csv files are placed in the **C:\Users\EnesA** directory. 
@@ -205,4 +205,81 @@ plot=table.toPandas()
 ```
 ```
 sns.barplot(x="AvgOfRatings",y = plot.genres,data=plot)
+```
+
+# Task-2 Recommender Design Model
+
+Burada daha önceden geliştirilmiş olan Lightfm kütüphanesi kullanılacaktır.Lightfm kütüphanesinde hazır olarak movielens-small database bilgisi bulunduğundan direk kütüphane sayesinde datalar çekilebilir.
+Fortunately, this is one of the functions provided by LightFM itself.
+
+```
+import numpy as np
+
+from lightfm.datasets import fetch_movielens
+
+movielens = fetch_movielens()
+
+```
+This gives us a dictionary with the following fields:
+```
+for key, value in movielens.items():
+    print(key, type(value), value.shape)
+    
+('test', <class 'scipy.sparse.coo.coo_matrix'>, (943, 1682))
+('item_features', <class 'scipy.sparse.csr.csr_matrix'>, (1682, 1682))
+('train', <class 'scipy.sparse.coo.coo_matrix'>, (943, 1682))
+('item_labels', <type 'numpy.ndarray'>, (1682,))
+('item_feature_labels', <type 'numpy.ndarray'>, (1682,))
+
+train = movielens['train']
+test = movielens['test']
+```
+The train and test elements are the most important: they contain the raw rating data, split into a train and a test set. Each row represents a user, and each column an item. Entries are ratings from 1 to 5.
+
+## Fitting models
+Now let's train a BPR model and look at its accuracy.
+
+We'll use two metrics of accuracy: precision@k and ROC AUC. Both are ranking metrics: to compute them, we'll be constructing recommendation lists for all of our users, and checking the ranking of known positive movies. For precision at k we'll be looking at whether they are within the first k results on the list; for AUC, we'll be calculating the probability that any known positive is higher on the list than a random negative example.
+```
+from lightfm import LightFM
+from lightfm.evaluation import precision_at_k
+from lightfm.evaluation import auc_score
+
+model = LightFM(learning_rate=0.05, loss='bpr')
+model.fit(train, epochs=10)
+
+train_precision = precision_at_k(model, train, k=10).mean()
+test_precision = precision_at_k(model, test, k=10).mean()
+
+train_auc = auc_score(model, train).mean()
+test_auc = auc_score(model, test).mean()
+
+print('Precision: train %.2f, test %.2f.' % (train_precision, test_precision))
+print('AUC: train %.2f, test %.2f.' % (train_auc, test_auc))
+Precision: train 0.59, test 0.10.
+AUC: train 0.90, test 0.86.
+
+```
+
+The WARP model, on the other hand, optimises for precision@k---we should expect its performance to be better on precision.
+```
+model = LightFM(learning_rate=0.05, loss='warp')
+
+model.fit_partial(train, epochs=10)
+
+train_precision = precision_at_k(model, train, k=10).mean()
+test_precision = precision_at_k(model, test, k=10).mean()
+
+train_auc = auc_score(model, train).mean()
+test_auc = auc_score(model, test).mean()
+
+print('Precision: train %.2f, test %.2f.' % (train_precision, test_precision))
+print('AUC: train %.2f, test %.2f.' % (train_auc, test_auc))
+
+Modelling result is :
+**Precision: train 0.61, test 0.11.**
+**AUC: train 0.93, test 0.90.**
+
+
+
 ```
