@@ -275,11 +275,10 @@ test_auc = auc_score(model, test).mean()
 
 print('Precision: train %.2f, test %.2f.' % (train_precision, test_precision))
 print('AUC: train %.2f, test %.2f.' % (train_auc, test_auc))
-
+```
 Modelling result is :
+```
 **Precision: train 0.61, test 0.11.**
 **AUC: train 0.93, test 0.90.**
-
-
 
 ```
