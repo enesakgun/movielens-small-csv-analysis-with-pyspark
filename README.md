@@ -209,8 +209,8 @@ sns.barplot(x="AvgOfRatings",y = plot.genres,data=plot)
 
 # Task-2 Recommender Design Model
 
-Burada daha önceden geliştirilmiş olan Lightfm kütüphanesi kullanılacaktır.Lightfm kütüphanesinde hazır olarak movielens-small database bilgisi bulunduğundan direk kütüphane sayesinde datalar çekilebilir.
-Fortunately, this is one of the functions provided by LightFM itself.
+Here, the previously developed Lightfm library will be used. Since there is ready-made movielens-small database information in the Lightfm library, data can be drawn directly thanks to the library.
+
 
 ```
 import numpy as np
@@ -285,9 +285,9 @@ AUC: train 0.93, test 0.90.
 # Task – 3 Text Analysis:
 
 It also means sentiment analysis.
-Bu analizi yapabilmek için aşağıdaki kütüphanelerin import edilmesi gerekmektedir.
-Eğer kütüphaneler yoksa daha öncede gösterildiği gibi `!pip install` komutuyla kütüphaneler kurulur. Daha sonra import edilir. Visual studio code ++ ayarlının son güncel hali pc ' nizde yüklü değilse bazı kütüphanelerin kurulumunda hata alınacaktır.
-https://docs.microsoft.com/tr-tr/cpp/build/vscpp-step-0-installation?view=msvc-170 sayfasından yükleme için izlenecek yol takip edilebilir.
+In order to perform this analysis, the following libraries must be imported.
+If there are no libraries, the libraries are installed with the `!pip install` command as shown earlier. It is then imported. If the latest version of Visual Studio Code ++ is not installed on your PC, you will receive an error in the installation of some libraries.
+The path to be followed for installation can be followed from the page https://docs.microsoft.com/tr-tr/cpp/build/vscpp-step-0-installation?view=msvc-170.
 
 ## Kütüphanelerin import edilmesi
 
@@ -319,18 +319,18 @@ from sklearn.metrics import classification_report,confusion_matrix,accuracy_scor
 import os
 import warnings
 ```
-Bu çalışmada nltk kütüphanesi önemli bir araçtır.
-nltk: Natural Language Toolkit; insan dili verileriyle çalışmak için Pyhton programlama dili ile geliştirilmiş ve geliştirilmekte olan 50'nin üzerinde derlem(corpus) ve sözcük kaynağı(lexical resources) ile oluşturulmuş açık kaynaklı bir kütüphanedir.
-PC' de ekstradan yüklenmesi gereken bu kit için aşağıdaki komut koşturulur.
+The nltk library is an important tool in this analysis.
+nltk: Natural Language Toolkit; It is an open-source library developed with the Python programming language to work with human language data and built with over 50 corpus and lexical resources under development.
+The following command is run for this kit that needs to be installed extra on the PC.
 ```
 import nltk
 nltk.download() # it will open pop-up for installing nltk
 showing info https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/index.xml 
 ```
-Masaüstüne düşen setup kurularak işlem tamamlanır.
+The process is completed by installing the setup that falls on the desktop.
 
 ## Importing Data and Data Analysis
-Jupyter Notebook'un veri aldığı klasör içerine IMDB Dataset dosyası konur. Daha sonra aşağıdaki komut çalıştırılarak data çekilir.
+The IMDB Dataset file is placed in the folder where Jupyter Notebook receives data. Then the following command is run and the data is retrieved.
 ```
 imdb_data=pd.read_csv('IMDB Dataset.csv')
 print(imdb_data.shape)
