@@ -1,23 +1,22 @@
 # movielens-small-csv-analysis-with-pyspark
-I used Pyspark in Jupyter Notebook for analyse movielens-small datas,
-Çalışmada Hadoop üzerinden Jupyter Notebook aracılığıyla Apache Spark kullanılarak data analizi yapılmıştır.
+In the study, data analysis for Movielens-Small data was carried out using Apache Spark via Jupyter Notebook.
 ## Setup
   ### JDK 8 Setup for Windows 
   Download Java SE Development Kit 8u321 for Windows.
-  (Denetim Masası ->Sistem ve Güvenlik -> Sistem -> Gelişmiş Sistem Ayarları -> Ortam Değişkenleri) yeni değişken oluşturuyoruz. Değişken adını: “SPARK_HOME” değerini: “C:\spark”    olarak tanımlıyoruz.
-  Yine ortam değişkenlerinde Path’i seçip düzenle diyoruz ve Path’e %SPARK_HOME%\bin ekliyoruz.
+ (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) create a new variable. We define variable name: “SPARK_HOME” value: 
+We select Path in environment variables and say edit and add %SPARK_HOME%\bin to Path. 
   ### Pyspark setup
   https://spark.apache.org/downloads.html
   1. Opening C:\spark file in PC
-  2. Daha sonra conf klasörü içerisindeki log4j.properties.template dosyasının .template uzantısını siliyoruz ve herhangi bir text editör ile açıp log4j.rootCategory=INFO olan satırı   log4j.rootCategory=ERROR olarak değiştirip kaydediyoruz.
- 3. Windows’un ortam değişkenlerine gelip (Denetim Masası ->Sistem ve Güvenlik -> Sistem -> Gelişmiş Sistem Ayarları -> Ortam Değişkenleri) yeni değişken oluşturuyoruz. Değişken adını: “SPARK_HOME” değerini: “C:\spark” olarak tanımlıyoruz.
-Yine ortam değişkenlerinde Path’i seçip düzenle diyoruz ve Path’e %SPARK_HOME%\bin ekliyoruz.
+  2. Then we delete the .template extension of the log4j.properties.template file in the conf folder and open it with any text editor, change the log4j.rootCategory=INFO line to log4j.rootCategory=ERROR and save it.
+ 3. We come to the environment variables of Windows (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) and create a new variable. We define variable name: “SPARK_HOME” value: “C:\spark”.
+Again, we select Path in the environment variables and say edit and add %SPARK_HOME%\bin to Path.
   ### Hadoop Setup
-  1. You must download "winutils.exe" for Hadoop
+  1. Download "winutils.exe" for Hadoop
   2. Opening C:\spark file in PC Copy winutils.exe to Hadoop File
-  3. C diskine gidip C:\tmp\hive dizinini oluşturuyoruz.
-  Komut satırını yönetici olarak çalıştır seçeneği ile açıyoruz. winutils.exe’nin bulunduğu dizinde komutu yazıyoruz: `chmod -R 777 C:\tmp\hive`
-  Son olarak komut satırına `spark-shell` komutunu yazıp çalıştırıyoruz.
+  3. Go to the C disk and create the C:\tmp\hive directory.
+  It opens with the option to run command line as administrator. In the directory where winutils.exe is located, write the command: `chmod -R 777 C:\tmp\hive`
+  Finally, write the `spark-shell` command on the command line and check if the installation is complete.
   ### Anaconda Download
   1. Eğer pc'nizde kurulu değilse https://www.anaconda.com/products/individual sitesi üzerinden anaconda kurulumu yapılır.
   2. Apache Spark'ı Jupyter Notebook üzerinden kullanabilmek için, (Denetim Masası ->Sistem ve Güvenlik -> Sistem -> Gelişmiş Sistem Ayarları -> Ortam Değişkenleri) alanından Path'i düzenleye basarak, C:\Users\EnesA\anaconda3 Anaconda ' nın kurulu olduğu dizin eklenir. C:\Users\EnesA\anaconda3\Scripts anacondanın kurulu olduğu alandaki Scripts klasörünün dizini eklenir.
@@ -26,18 +25,17 @@ Yukarıdaki bütün kurulumlar tamamlandıktan sonra çalışmaya başlanabilece
 
 # Task-1 Exploratory Data Analysis.ipynb
 
-1. Öncelikle jupyter notebook üzerinden File>New Notebook diyerek yeni bir sayfa açılır.
-2. `pwd` komutunu yazarak jupyter' in kaydetme yerini öğrenip, kullanacağımız dataları buraya yüklüyoruz. Bu çalışmada https://grouplens.org/datasets/movielens/25m/ linki üzerinden "MovieLens 25M movie ratings" datası indirilir. İndirilen .csv uzantılı dosyaları **C:\Users\EnesA** dizinine koyulur.
-3. Kullanacağımız Python kütüphanelerini import etmek için öncelikle `!pip install` komutunu kullanarak indirme işlemi yapılır. Example: `!pip install pyspark `
-4. Kütüphaneler import edilir.
+1.  First of all, a new page is opened by saying File>New Notebook on jupyter notebook. 
+2. By typing the `pwd` command, the save location of jupyter is learned and the data to be used is loaded here.  In this study, "MovieLens 25M movie ratings" data is downloaded via https://grouplens.org/datasets/movielens/25m/ link. The downloaded .csv files are placed in the **C:\Users\EnesA** directory. 
+3. To import the Python libraries to be used, write the `!pip install` command for downloading. Example: `!pip install pyspark ` Example: `!pip install pyspark `
+4.Libraries are imported. 
 ```import pyspark
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from pyspark.sql import SparkSession 
 ```
-5. Spark üzerinden bir session başlatmak için komut çalıştırılır. Dataları kullanmak için, daha önce indirmiş olduğumuz movielens datalarından gerekenler çekilir.
-ml-25m klasorunu çağırdığınızda hata alırsanız, Ortam değişkenlerindeki  Path kısmına **C:\Users\EnesA\ml-25m** dizini eklemeniz gerekebilir. **.show** komutu dataların gelip gelmediğini görmeyi sağlar.
+5. The command is run to start a session over Spark. To use the data, the required movielens data is drawn from the movielens data that we have downloaded before. If you get an error when you call the ml-25m folder, you may need to add the **C:\Users\EnesA\ml-25m** directory to the Path in the Environment variables. The **.show** command allows you to see if the data is coming.
 ```
 spark = SparkSession.builder.appName('MovieLens').getOrCreate()
 ratings = spark.read.option("header", "true").csv("ml-25m/ratings.csv")
@@ -66,15 +64,14 @@ movies.show(5)
 only showing top 5 rows
 
 ```
-6. Session üzerinden direk sql kullanırken dataları çekmek için tanımlanan "movies" "ratings" değişkenleri sql tablosu haline getirilir.Artık datalar üzerinden çalışmaya başlanabilmektedir.
+6. When using sql directly over the session, the "movies" "ratings" variables defined to pull the data are converted into a sql table. Now you can start working on the data.
 ```
 movies.createOrReplaceTempView("Movies")
 ratings.createOrReplaceTempView("Ratings")
 ```
 ## 1.Question - Write a SQL query to create a dataframe with including userid, movieid, genre and rating
 
-1. Bu soruda 2 farklı şekilde data çekilebilir.
-Ayrı ayrı 2 tablo üzerinden data istendiği için join yapılması gerekmektedir. İlk olarak inner join kullanılarak **Movies** ve **Ratings** tablolaro birbirine bağlanılabilir. Ya da 2. örnekteki gibi **where** alanında tablolar birbirlerine bağlanılabilir.
+1. In this question, data can be retrieved in 2 different ways. Since data is requested from 2 separate tables, a join is required. First, **Movies** and **Ratings** tables can be linked to each other using inner join. Or tables can be linked to each other in the **where** field as in the 2nd example.
 ```
 dataframe=spark.sql("select r.userId,m.movieId,m.genres,r.rating from Movies m inner join Ratings r on r.movieId=m.movieId").show()
 +------+-------+--------------------+------+
@@ -170,7 +167,7 @@ order by r.rating desc limit 5""").show()
 ```
 
 ## 4.Question - By using timestamp from ratings table, provide top 5 most frequent users within a week
-In this question, we convert timestamp to date for using.
+In this question, we convert timestamp to date for use.
 ```
 spark.sql("""select count(*) Frequentusers,userId from Movies m 
 inner join Ratings r on r.movieId=m.movieId 
@@ -180,7 +177,7 @@ order by count(*) desc   limit 5""").show()
 ```
 ## 5.Question -Calculate average ratings for each genre, and plot average ratings of top 10 genres with descending order
 
-If anyone use the seaborn library with this data, you have to convert to Pandas.
+If anyone uses the seaborn library with this data, has to convert to Pandas.
 ```
 table= spark.sql("""
 
