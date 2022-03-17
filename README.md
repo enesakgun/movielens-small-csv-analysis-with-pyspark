@@ -3,8 +3,8 @@ Data analysis for Movielens-Small data was carried out using Apache Spark via Ju
 ## Setup
   ### JDK 8 Setup for Windows 
   Download Java SE Development Kit 8u321 for Windows.
- (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) create a new variable. We define variable name: “SPARK_HOME” value: 
-Select Path in environment variables and say edit and add %SPARK_HOME%\bin to Path. 
+ (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) create a new variable. We define variable name: “JAVA_HOME” value: 
+Select Path in environment variables and say edit and add %JAVA_HOME%\bin to Path. 
   ### Pyspark setup
   https://spark.apache.org/downloads.html
   1. Opening C:\spark file in PC
