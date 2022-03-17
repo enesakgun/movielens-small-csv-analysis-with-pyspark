@@ -6,7 +6,7 @@ Data analysis for Movielens-Small data was carried out using Apache Spark via Ju
  (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) create a new variable. We define variable name: “JAVA_HOME” value: 
 Select Path in environment variables and say edit and add %JAVA_HOME%\bin to Path. 
   ### Pyspark setup
-  https://spark.apache.org/downloads.html
+  https://spark.apache.org/downloads.html Hadoop version must be 2.7 
   1. Opening C:\spark file in PC
   2. Then we delete the .template extension of the log4j.properties.template file in the conf folder and open it with any text editor, change the log4j.rootCategory=INFO line to log4j.rootCategory=ERROR and save it.
  3. Go to the environment variables of Windows (Control Panel -> System and Security -> System -> Advanced System Settings -> Environment Variables) and create a new variable. Define variable name: “SPARK_HOME” value: “C:\spark”.
