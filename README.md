@@ -13,7 +13,7 @@ Select Path in environment variables and say edit and add %JAVA_HOME%\bin to Pat
 Again, Select Path in the environment variables and say edit and add %SPARK_HOME%\bin to Path.
   ### Hadoop Setup
   1. Download "winutils.exe" for Hadoop
-  2. Opening C:\spark file in PC Copy winutils.exe to Hadoop File
+  2. Opening C:\hadoop file in PC Copy winutils.exe to Hadoop File
   3. Go to the C disk and create the C:\tmp\hive directory.
   It opens with the option to run command line as administrator. In the directory where winutils.exe is located, write the command: `chmod -R 777 C:\tmp\hive`
   Finally, write the `spark-shell` command on the command line and check if the installation is complete.
